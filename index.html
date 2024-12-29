@@ -146,11 +146,15 @@
 		<img id="m01" src="./images/m01.jpg">
     <img id="m15" src="./images/m15.jpg">
     <img id="m35" src="./images/m35.png">
+    <img id="m37" src="./images/m37.png">
     <img id="m38" src="./images/m38.png">
     <img id="m44m47" src="./images/m44m47.jpg">
+    <img id="m52" src="./images/m52.png">
     <img id="m55" src="./images/m55.jpg">
     <img id="m56" src="./images/m56.png">
+    <img id="m59" src="./images/m59.png">
     <img id="m60" src="./images/m60.png">
+    <img id="m61" src="./images/m61.png">
 		<!--<img id="m00" src="./images/m00.jpg">-->
 
     <video id="vid1" src="images/CA BRILLEEE.mp4" autoplay="true" loop="true" preload="auto" controls="true"
@@ -162,6 +166,10 @@
     <a-marker type="barcode" value="1" size="1.5">
 		<a-image src="#m01" rotation="90 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
+
+    <a-marker type="barcode" value="2" size="1.5">
+      <a-image src="" rotation="90 0 0" position="0 0 0" width="" height=""></a-image>
+      </a-marker>
 
     <a-marker audiohandler audioReference="null" vidReference="#vid1"  type="barcode" value="3" size="1">
       <a-entity material="shader: chromakey; src:#vid1; chroma:true; color: 1. 1. 1."
@@ -333,8 +341,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="37" size="0.25">
-      <a-box color="#808080" depth="1" height="1" width="1"></a-box>
-      <a-text value="Marker 37" side="double" position="0 1.1 0" rotation="270 180 0" align="center"></a-text>
+      <a-image src="#m37" rotation="270 180 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="38" size="0.25">
@@ -381,7 +388,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="47" size="0.1">
-      <a-image src="#m44m47" rotation="90 0 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m44m47" rotation="180 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="48" size="0.1">
@@ -405,8 +412,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="52" size="0.1">
-      <a-box color="#0000FF" depth="1" height="1" width="1"></a-box>
-      <a-text value="Marker 52" side="double" position="0 1.1 0" rotation="270 90 0" align="center"></a-text>
+      <a-image src="#m52" rotation="270 90 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="53" size="0.1">
@@ -438,8 +444,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="59" size="0.1">
-      <a-box color="#800000" depth="1" height="1" width="1"></a-box>
-      <a-text value="Marker 59" side="double" position="0 1.1 0" rotation="270 180 0" align="center"></a-text>
+      <a-image src="#m59" rotation="270 180 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="60" size="0.1">
@@ -447,8 +452,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="61" size="0.1">
-      <a-box color="#000080" depth="1" height="1" width="1"></a-box>
-      <a-text value="Marker 61" side="double" position="0 1.1 0" rotation="270 0 0" align="center"></a-text>
+      <a-image src="#m61" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="62" size="0.1">
