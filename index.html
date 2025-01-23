@@ -9,128 +9,6 @@
 
   </script>
 
-  
-<script defer>
-  // https://github.com/nikolaiwarner/aframe-chromakey-material
-  AFRAME.registerShader('chromakey', {
-    schema: {
-      src: {type: 'map'},
-      color: {default: {x: 0.0, y: 1.0, z: 0.0}, type: 'vec3', is: 'uniform'},
-      chroma: {type: 'bool', is: 'uniform'},
-      transparent: {default: true, is: 'uniform'}
-    },
-
-    init: function (data) {
-
-      const videoEl = data.src;
-
-      document.addEventListener('click', () => {
-        videoEl.play();
-        const entity = document.querySelector("[sound]");
-        if (entity) entity.components.sound.playSound();
-      });
-
-      var videoTexture = new THREE.VideoTexture(data.src)
-      videoTexture.minFilter = THREE.LinearFilter
-      this.material = new THREE.ShaderMaterial({
-        uniforms: {
-          chroma: {
-            type: 'b',
-            value: data.chroma
-          },
-          color: {
-            type: 'c',
-            value: data.color
-          },
-          myTexture: {
-            type: 't',
-            value: videoTexture
-          }
-        },
-        vertexShader:
-          `
-          varying vec2 vUv;
-          
-          void main(void)
-          {
-            vUv = uv;
-            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-            gl_Position = projectionMatrix * mvPosition;
-          }
-        `
-        ,
-        fragmentShader:
-          `
-            uniform sampler2D myTexture;
-            uniform vec3 color;
-            uniform bool chroma;
-            varying vec2 vUv;
-            
-            void main(void)
-            {
-              vec3 tColor = texture2D( myTexture, vUv ).rgb;
-              float a;
-              if(chroma == true){
-                 a = (length(tColor - color) - 0.5) * 7.0;
-              }
-              else {
-                a = 1.0;
-              }
-              
-              gl_FragColor = vec4(tColor, a);
-            }
-          `
-      })
-    },
-
-    update: function (data) {
-      this.material.color = data.color
-      this.material.src = data.src
-      this.material.transparent = data.transparent
-    },
-  });
-</script>
-
-<script defer>
-  AFRAME.registerComponent("audiohandler", {
-    init: function () {
-      this.trackedElements = document.querySelectorAll(
-        "a-marker[audiohandler]"
-      );
-      // console.log(this.trackedElements);
-    },
-    tick: function () {
-      this.trackedElements.forEach((marker) => {
-        const vid = document.querySelector(
-          marker.attributes.vidReference.value
-        );
-        const sound = document.querySelector(
-          marker.attributes.audioReference.value
-        );
-        if (marker.object3D.visible) {
-          if (vid && vid.paused) {
-            vid.play();
-          }
-          if (sound && sound.paused) {
-            sound.play();
-          }
-        } else {
-          if (vid && !vid.paused) {
-            vid.pause();
-            vid.currentTime = 0;
-          }
-          if (sound && !sound.paused) {
-            sound.pause();
-            sound.currentTime = 0;
-          }
-        }
-      });
-    },
-  });
-
-</script>
-</head>
-
 <script defer>
   AFRAME.registerComponent("audiohandler", {
     init: function () {
@@ -160,6 +38,10 @@
     },
   });
 </script>
+
+  
+</head>
+
 
 <body style="margin : 0px; overflow: hidden;">
 
@@ -202,6 +84,7 @@
     <img id="m30" src="./images/m30.JPG">
     <img id="m31" src="./images/m31.JPG">
     <img id="m33" src="./images/m33.JPG">
+    <img id="m34" src="./images/m34.jpg">
     <img id="m35" src="./images/m35.png">
     <img id="m36" src="./images/m36.jpg">
     <img id="m37" src="./images/m37.png">
@@ -224,16 +107,17 @@
     <img id="m55" src="./images/m55.jpg">
     <img id="m56" src="./images/m56.png">
     <img id="m57" src="./images/m57.JPG">
+    <img id="m58" src="./images/m58.jpg">
     <img id="m59" src="./images/m59.png">
     <img id="m60" src="./images/m60.jpg">
     <img id="m61" src="./images/m61.png">
     <img id="m62" src="./images/m62.JPG">
 		<!--<img id="m00" src="./images/m00.jpg">-->
 
-    <audio id="s19" src="s19.mp3" preload="auto"></audio>
-      <audio id="s20" src="s20.mp3" preload="auto"></audio>
-      <audio id="s35" src="s35.mp3" preload="auto"></audio>
-      <audio id="s60" src="s60.mp3" preload="auto"></audio>
+    <audio id="s19" src="./images/s19.mp3" preload="auto"></audio>
+    <audio id="s20" src="./images/s20.mp3" preload="auto"></audio>
+    <audio id="s35" src="./images/s35.mp3" preload="auto"></audio>
+    <audio id="s60" src="./images/s60.mp3" preload="auto"></audio>
    
     <video id="vid1" src="images/CA BRILLEEE.mp4" autoplay="true" loop="true" preload="auto" controls="true"
         muted="true" playsinline="" webkit-playsinline=""></video>
@@ -241,23 +125,19 @@
 	  </a-assets>
 
 
-    <a-marker audiohandler audioReference="null" vidReference="#vid1"  type="barcode" value="" size="1">
-      <a-entity material="shader: chromakey; src:#vid1; chroma:true; color: 1. 1. 1."
-        geometry="primitive: plane; width:  1; height:  1" position="0  0  0" rotation="270  0  0" side="double">
-      </a-entity>
-    </a-marker> 
+
 
 
     <a-marker type="barcode" value="1" size="1.5">
-		   <a-image src="#m1" rotation="0 0 0" position="0 0 0" width="" height=""></a-image>
+		   <a-image src="#m1" rotation="270 -90 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="2" size="1.5">
-      <a-image src="#m2" rotation="0 0 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m2" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
       </a-marker>
 
       <a-marker type="barcode" value="3" size="1.5">
-        <a-image src="#m3" rotation="0 0 0" position="0 0 0" width="" height=""></a-image>
+        <a-image src="#m3" rotation="270 -90 0" position="0 0 0" width="" height=""></a-image>
       </a-marker>
 
     <a-marker type="barcode" value="4" size="1">
@@ -289,11 +169,11 @@
     </a-marker>
 
     <a-marker type="barcode" value="11" size="0.5">
-        <a-image src="#m11" rotation="180 -90 0" position="0 0 0" width="" height=""></a-image>
+        <a-image src="#m11" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="12" size="0.5">
-      <a-image src="#m12" rotation="180 90 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m12" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="13" size="0.5">
@@ -305,7 +185,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="15" size="0.5">
-      <a-image src="#m15" rotation="0 0 0" position="0 0 0" width="1" height="1"></a-image>
+      <a-image src="#m15" rotation="270 -90 0" position="0 0 0" width="1" height="1"></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="16" size="0.5">
@@ -320,18 +200,18 @@
       <a-image src="#m18" rotation="270 0 0" position="0 0 0" width="2" height="2"></a-image>
     </a-marker>
 
-    <a-marker type="barcode" value="19" size="0.5">
+    <a-marker audiohandler audioReference="#s19"  type="barcode" value="19" size="0.5">
       <a-image src="#m19" rotation="270 90 0" position="0 0 0" width="" height=""></a-image>
-      <a-marker audiohandler audioReference="#s19"size="0.8"></a-marker>
+      
     </a-marker>
 
-    <a-marker type="barcode" value="20" size="0.5">
+    <a-marker audiohandler audioReference="#s20" type="barcode" value="20" size="0.5">
       <a-image src="#m20" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
-      <a-marker audiohandler audioReference="#m20"  preset="kanji" size="0.8"></a-marker>
+      
     </a-marker>
 
     <a-marker type="barcode" value="21" size="0.5">
-      <a-image src="#m21" rotation="180 90 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m21" rotation="90 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="22" size="0.25">
@@ -363,7 +243,7 @@
     </a-marker>
 
     <a-marker type="barcode" value="29" size="0.25">
-      <a-image src="#m29" rotation="180 -90 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m29" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="30" size="0.25">
@@ -375,7 +255,7 @@
     </a-marker>
   
     <a-marker type="barcode" value="32" size="0.25">
-      <a-image src="#m32" rotation="180 180 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m32" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="33" size="0.25">
@@ -386,9 +266,9 @@
       <a-image src="#m34" rotation="270 180 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
   
-    <a-marker type="barcode" value="35" size="0.25">
+    <a-marker audiohandler audioReference="#s35" type="barcode" value="35" size="0.25">
       <a-image src="#m35" rotation="90 0 0" position="0 0 0" width="1.5" height="1.5"></a-image>
-      <a-marker audiohandler audioReference="#m35"  preset="kanji" size="0.8"></a-marker>
+      
     </a-marker>
 
     <a-marker type="barcode" value="36" size="0.25">
@@ -436,7 +316,7 @@
     </a-marker>
       
     <a-marker type="barcode" value="47" size="0.1">
-      <a-image src="#m44m47" rotation="180 0 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m44m47" rotation="270 90 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="48" size="0.1">
@@ -468,11 +348,11 @@
     </a-marker>
       
     <a-marker type="barcode" value="55" size="0.1">
-      <a-image src="#m55" rotation="0 -90 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m55" rotation="270 -90 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="56" size="0.1">
-      <a-image src="#m56" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
+      <a-image src="#m56" rotation="270 0 0" position="0 0 0" width="1.5" height="1.5"></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="57" size="0.1">
@@ -487,9 +367,8 @@
       <a-image src="#m59" rotation="270 180 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
-    <a-marker type="barcode" value="60" size="0.1">
-      <a-image src="#m60" rotation="180 -90 0" position="0 0 0" width="" height=""></a-image>
-      <a-marker audiohandler audioReference="#m60"  preset="kanji" size="0.8"></a-marker>
+    <a-marker audiohandler audioReference="#s60" type="barcode" value="60" size="0.1">
+      <a-image src="#m60" rotation="270 90 0" position="0 0 0" width="" height=""></a-image>
     </a-marker>
 
     <a-marker type="barcode" value="61" size="0.1">
