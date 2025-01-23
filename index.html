@@ -131,6 +131,35 @@
 </script>
 </head>
 
+<script defer>
+  AFRAME.registerComponent("audiohandler", {
+    init: function () {
+      this.trackedElements = document.querySelectorAll(
+        "a-marker[audiohandler]"
+      );
+    },
+    tick: function () {
+      this.trackedElements.forEach((marker) => {
+     
+        const sound = document.querySelector(
+          marker.attributes.audioReference.value
+        );
+        if (marker.object3D.visible) {
+         
+          if (sound.paused) {
+            sound.play();
+          }
+        } else {
+      
+          if (!sound.paused) {
+            sound.pause();
+            sound.currentTime = 0;
+          }
+        }
+      });
+    },
+  });
+</script>
 
 <body style="margin : 0px; overflow: hidden;">
 
@@ -203,6 +232,14 @@
         muted="true" playsinline="" webkit-playsinline=""></video>
       <!--<audio id="sound1" src="assets/634332__josefpres__bass-loops-077-with-drums-long-loop-120-bpm.mp3" preload="auto"></audio>-->
 	  </a-assets>
+
+    <a-assets>
+      <audio id="m19" src="m19.m4a" preload="auto"></audio>
+      <audio id="m20" src="m20.m4a" preload="auto"></audio>
+      <audio id="m35" src="m35.m4a" preload="auto"></audio>
+      <audio id="m60" src="m60.m4a" preload="auto"></audio>
+    </a-assets>
+
 
     <a-marker audiohandler audioReference="null" vidReference="#vid1"  type="barcode" value="" size="1">
       <a-entity material="shader: chromakey; src:#vid1; chroma:true; color: 1. 1. 1."
@@ -285,10 +322,12 @@
 
     <a-marker type="barcode" value="19" size="0.5">
       <a-image src="#m19" rotation="270 90 0" position="0 0 0" width="" height=""></a-image>
+      <a-marker audiohandler audioReference="m19"  preset="kanji" size="0.8"></a-marker>
     </a-marker>
 
     <a-marker type="barcode" value="20" size="0.5">
       <a-image src="#m20" rotation="270 0 0" position="0 0 0" width="" height=""></a-image>
+      <a-marker audiohandler audioReference="#m20"  preset="kanji" size="0.8"></a-marker>
     </a-marker>
 
     <a-marker type="barcode" value="21" size="0.5">
